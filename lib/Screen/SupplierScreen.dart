@@ -21,6 +21,7 @@ import '../Api.path.dart';
 import '../Model/GetHomeCategoryModel.dart';
 import '../Model/Get_all_cat_model.dart';
 import '../Model/Get_suppplier_or_client_model.dart';
+import '../Model/SupplierCatModel.dart';
 import '../Model/businessCategoruModel.dart';
 import '../Model/suplier_Client_supplier_response.dart';
 import '../widgets/Appbar.dart';
@@ -465,12 +466,13 @@ class _SupplierScreenState extends State<SupplierScreen> {
     }
   }
 
-  BusinessCategoruModel? businesscatorymodel;
+  SupplierCatModel? businesscatorymodel;
   Future<void> businessCategory() async {
-    apiBaseHelper.getAPICall(getBusinessCategory).then((getData) {
+    apiBaseHelper.getAPICall(getSupplierCategoryApi).then((getData) {
       bool error = getData['error'];
       if (!error) {
-        businesscatorymodel = BusinessCategoruModel.fromJson(getData);
+        businesscatorymodel = SupplierCatModel.fromJson(getData);
+       // businesscatorymodel?.data?.add(BussinessData(name: "Select All"));
       } else {}
     });
   }
@@ -593,7 +595,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                                fontSize: 15,
                               ),
                             ),
                           ),
@@ -610,11 +612,13 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                     colors.black.withOpacity(0.4))),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton2<String>(
+                                //value: selectedBusiness[0],
                                 isExpanded: true,
+
                                 hint: Text(
-                                  "Select All",
+                                  "Categories",
                                   style: TextStyle(
-                                      color: colors.black, fontSize: 15),
+                                      color: colors.black, fontSize: 13),
                                 ),
                                 // dropdownColor: colors.primary,
                                 value: selectedBusiness,
@@ -629,6 +633,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                 ),
                                 onChanged: (String? value) {
                                   setState(() {
+
                                     selectedBusiness = value!;
                                     businesscatorymodel!.data!
                                         .forEach((element) {
@@ -642,7 +647,6 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                           widget.isManu="";
                                         });
                                         getSupplier();
-
                                       }
                                     });
                                   });
@@ -650,7 +654,9 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                 items: businesscatorymodel?.data
                                     ?.map((items) {
                                   return DropdownMenuItem(
+
                                     value: items.name.toString(),
+
                                     child: Padding(padding: const EdgeInsets.only(top: 0),
                                       child: Text(
                                         items.name.toString(),
@@ -678,7 +684,17 @@ class _SupplierScreenState extends State<SupplierScreen> {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>Gogglemap(tempMode2: valueList,)));
                       },
-                      child: Icon(Icons.location_on_outlined,color: colors.primary,)),
+                      child: Container(
+                          height: 30,
+                          width: 30,
+                          decoration:  BoxDecoration(
+                              color: colors.primary,
+                              borderRadius: BorderRadius.circular(50)
+                          ),
+                          child: Center(child: Icon(Icons.location_on_outlined,color: colors.white,))
+                      )
+
+                  ),
                 ),
               ),
               getSubcat(),
@@ -1173,53 +1189,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
   List<ClientSupplierProductData> supplierDataList = [];
   GetSuppplierOrClientModel? getSuppplierOrClientModel;
   bool isLoading = false;
-  // getSupplier() async {
-  //   String? userId = await getString(key: 'id');
-  //   var headers = {
-  //     'Cookie': 'ci_session=2684d5af0023a69d4d6924ce7e6cb8834b1a1b99'
-  //   };
-  //   var request = http.MultipartRequest('POST', Uri.parse('${baseUrl}supplier'));
-  //   request.fields.addAll({
-  //     "type": '1',
-  //     "seller_id": userId.toString(),
-  //     "buisness_category": widget.isRetailer ?? false ? "Wholesaler" : widget.isRetailer ?? false ? "Retailers" : widget.isManu ?? false ? "Manufacturer" : businessName == null || businessName == "" ? "" : businessName
-  //   });
-  //
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //   var result =  await response.stream.bytesToString();
-  //   var finalResult = GetSuppplierOrClientModel.fromJson(result);
-  //   if (finalResult.error == false) {
-  //     List <String> nameList = [];
-  //     cateList.forEach((element) {
-  //       // print('${element.name}');
-  //       int i = cateList.indexWhere((e) => e.name== element.name) ;
-  //       if(finalResult['data'][element.name] !=null){
-  //         setState(() {
-  //           nameList.add(finalResult['data'][element.name][0]['category_name'].toString());
-  //           print('___nameList______${nameList}_________');
-  //
-  //         });
-  //
-  //       }
-  //     });
-  //     // var finalJson = GetSuppplierOrClientModel.fromJson(getData);
-  //     getSuppplierOrClientModel = finalResult;
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   } else {
-  //     Fluttertoast.showToast(msg: "msg");
-  //   }
-  //   }
-  //   else {
-  //   print(response.reasonPhrase);
-  //   }
-  //
-  // }
+
   List <TempModel> tempList = [];
   List <TempMode2> valueList = [ ];
 
@@ -1235,7 +1205,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
     };
     param["buisness_category"]=widget.isManu=="type"?"":
     widget.isManu==""?businessName:widget.isManu;
-    print('____aaaaa______${param}_________');
+
     apiBaseHelper.postAPICall(getSupplierOrClientApi, param).then((getData) {
       valueList.clear();
       List <String> list = [];
@@ -1243,20 +1213,13 @@ class _SupplierScreenState extends State<SupplierScreen> {
       String msg = getData['message'];
       if (!error) {
         cateList.forEach((element) {
-          print('_____catName_____${element.name}_________');
 
           if(getData['data'][element.name] !=null && !(list.contains(element.name)) ){
-            print('_____test_____${getData['data'][element.name] !=null}_________');
-            print('_____test2_____${!(list.contains(element.name))}_________');
             list.add(element.name ?? '');
             // var data = TempModel.fromJson(getData['data'][element.name]);
             tempList = (getData['data'][element.name] as List).map((e) => TempModel.fromJson(e)).toList() ;
             getData['data'][element.name] ;
             valueList.add(TempMode2(temp: tempList, catName: tempList.first.categoryName));
-            //list.add(element.name ?? '');
-            /*setState(() {
-              nameList.add(getData['data'][element.name]);
-            });*/
 
           }
         });
@@ -1288,7 +1251,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
       bool error = getData['error'];
       String msg = getData['message'];
       if (!error) {
-        //var finalJson = GetSupplierOrClientResponse.fromJson(getData);
+
         Fluttertoast.showToast(msg: msg);
       } else {
         Fluttertoast.showToast(msg: msg);
@@ -1528,30 +1491,6 @@ class _SupplierScreenState extends State<SupplierScreen> {
                           },
                         )
 
-                        // InkWell(
-                        //   onTap: () {
-                        //     if(_Cotact.currentState!.validate()) {
-                        //       sendOtpCotactSuplier(
-                        //
-                        //           productId
-                        //
-                        //       );
-                        //
-                        //     }
-                        //
-                        //   },
-                        //   child: Row(
-                        //     children: [
-                        //       SizedBox(width: 15,),
-                        //       Container(
-                        //         color: colors.primary,
-                        //         width: 100,
-                        //         height: 40,child:
-                        //       Center(child: Text('Send Otp',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold),)),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),

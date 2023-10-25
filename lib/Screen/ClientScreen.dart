@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:b2b/Model/suplier_Client_supplier_response.dart';
+import 'package:b2b/Screen/MapHomeScreen.dart';
 import 'package:b2b/apiServices/apiConstants.dart';
 import 'package:b2b/apiServices/apiStrings.dart';
 import 'package:b2b/color.dart';
@@ -20,6 +21,7 @@ import '../widgets/Appbar.dart';
 import '../widgets/appButton.dart';
 import 'package:http/http.dart'as http;
 
+import 'MapClientScreen.dart';
 import 'Product_details_home.dart';
 //List <List<ClientListData>> dataList1 = [] ;
 class ClientScreen extends StatefulWidget {
@@ -535,6 +537,27 @@ class _ClientScreenState extends State<ClientScreen> {
                         ),
                       ],
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => GoogleMapClient(model:getClientModel!.data)));
+                            },
+                            child: Container(
+
+                                height: 30,
+                                width: 30,
+                                decoration:  BoxDecoration(
+                                    color: colors.primary,
+                                    borderRadius: BorderRadius.circular(50)
+                                ),
+                                child: Center(child: Icon(Icons.location_on_outlined,color: colors.white,))
+                            )
+                        ),
+                      ),
+                    ),
                      getSubcat(),
                     const SizedBox(
                       height: 10,
@@ -1028,6 +1051,7 @@ class _ClientScreenState extends State<ClientScreen> {
   //List <List<ClientListData>> dataList1 = [] ;
   bool isLoading = false;
   GetClientModel? getClientModel;
+  List<dataListClient> productList = [];
   getClientApi() async {
     setState(() {
       isLoading = true;

@@ -13,7 +13,7 @@ extension colors on ColorScheme{
   );
 
   //static const Color primary=Color(0xffFD5E53);
-  static const Color primary=Color(0xFFE57373);
+  static const Color primary=Color(0xFF256ED7);
   static const Color secondary=Color(0xff05b050);
   static const Color black = Color(0xff000000);
   static const Color white = Color(0xffFFFFFF);

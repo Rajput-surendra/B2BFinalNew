@@ -759,17 +759,15 @@ class _SearchScreenState extends State<SearchScreen> {
   bool isProducts = false;
 
   searchApi() async {
-    print("sdfghjkl");
+
     var headers = {'Cookie': 'ci_session=150ah7cca9g5b61a3nbpvaa41ch6lihe'};
     var request = http.MultipartRequest('POST', Uri.parse('${baseUrl}fetch_product_by_fillters'));
     request.fields.addAll({
       'name': searchC.text.toString(),
       'city': widget.con.toString()
     });
-    print('____requery=t______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
       // String responseData = await response.stream.transform(utf8.decoder).join();

@@ -45,7 +45,6 @@ BusinessCategoruModel copyWith({  bool? error,
     }
     return map;
   }
-
 }
 
 /// id : "1"
@@ -55,7 +54,8 @@ BusinessCategoruModel copyWith({  bool? error,
 
 class SellerTypeData {
   SellerTypeData({
-      String? id, 
+      String? id,
+       String? selectAll,
       String? name, 
       String? createdDate, 
       String? updatedDate,}){
@@ -63,6 +63,7 @@ class SellerTypeData {
     _name = name;
     _createdDate = createdDate;
     _updatedDate = updatedDate;
+    _selectAll =  selectAll;
 }
 
   SellerTypeData.fromJson(dynamic json) {
@@ -70,11 +71,13 @@ class SellerTypeData {
     _name = json['name'];
     _createdDate = json['created_date'];
     _updatedDate = json['updated_date'];
+    _selectAll = json['Select All'];
   }
   String? _id;
   String? _name;
   String? _createdDate;
   String? _updatedDate;
+  String? _selectAll;
 SellerTypeData copyWith({  String? id,
   String? name,
   String? createdDate,

@@ -4,6 +4,7 @@ final Uri getUserRegister = Uri.parse('${baseUrl}register');
 final Uri getCountry = Uri.parse('${baseUrl}get_countries');
 final Uri getSate= Uri.parse('${baseUrl}get_states');
 final Uri getBusinessCategory= Uri.parse('${baseUrl}business_cat');
+final Uri getSupplierCategoryApi= Uri.parse('${baseUrl}business_cat1');
 final Uri getProductListAPI = Uri.parse('${baseUrl}get_product_list');
 final Uri getPurchasedProductListAPI = Uri.parse('${baseUrl}get_purchsae_product');
 final Uri getAddProductApi = Uri.parse('${baseUrl}product_purchase');

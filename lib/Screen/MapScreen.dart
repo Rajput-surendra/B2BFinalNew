@@ -18,14 +18,14 @@ class Gogglemap extends StatefulWidget {
 class _GogglemapState extends State<Gogglemap> {
   late GoogleMapController mapController;
 
-  final Set<Marker> markers = {
-    Marker(
-      markerId: MarkerId('1'),
-      position: LatLng(22.751247256865494, 75.89504445001252), // Replace with the coordinates of your placeMark
-      infoWindow: InfoWindow(title: 'Vijay Nagar'),
-    ),
-    // Add more markers as needed
-  };
+  // final Set<Marker> markers = {
+  //   Marker(
+  //     markerId: MarkerId('1'),
+  //     position: LatLng(22.751247256865494, 75.89504445001252), // Replace with the coordinates of your placeMark
+  //     infoWindow: InfoWindow(title: 'Vijay Nagar'),
+  //   ),
+  //   // Add more markers as needed
+  // };
 List  <Marker> list = [];
 
  List <String> lat = [];
@@ -101,8 +101,8 @@ List  <Marker> list = [];
   void initState() {
     // TODO: implement initState
     super.initState();
+    _getAddressFromLatLng();
     widget.tempMode2?.forEach((element) {
-    //  print('__________${element.temp}_________');
       element.temp?.forEach((element) {
         if(element.lat != '' && element.lang != '' )
         {
@@ -115,7 +115,6 @@ List  <Marker> list = [];
     });
 
     for(int i =0; i<lat.length;i ++ ){
-
       list.add(Marker(
         markerId: MarkerId('1'),
         position: LatLng(double.parse(lat[i]), double.parse(long[i])), // Replace with the coordinates of your placeMark
@@ -138,7 +137,6 @@ List  <Marker> list = [];
         setState(() {
           _currentAddress =
           "${place.street}, ${place.subLocality}, ${place.locality}, ${place.country}";
-          //"${place.name}, ${place.locality},${place.administrativeArea},${place.country}";
 
         });
       } catch (e) {
@@ -170,12 +168,11 @@ List  <Marker> list = [];
   }
   @override
   Widget build(BuildContext context) {
-  //  print('____dddfdf______${widget.tempMode2}_________');
     return Scaffold(
-      appBar: customAppBar(context: context, text: "Vendor Place", isTrue: false),
-      body:GoogleMap(
+      appBar: customAppBar(context: context, text: "Near Sellers", isTrue: false),
+      body:  homelat  == null ? Center(child: CircularProgressIndicator()):GoogleMap(
         initialCameraPosition: CameraPosition(
-          target: LatLng(22.751247256865494, 75.89504445001252), // Initial map coordinates
+          target: LatLng(homelat, homeLong), // Initial map coordinates
           zoom: 14.0, // Initial zoom level
         ),
         onMapCreated: (controller) {

@@ -49,6 +49,7 @@ import 'AboutUs.dart';
 import 'Contactus.dart';
 import 'EnquiryList.dart';
 import 'Help&Support.dart';
+import 'MapHomeScreen.dart';
 import 'MapScreen.dart';
 import 'MyPlanList.dart';
 import 'ProductForm.dart';
@@ -1234,10 +1235,11 @@ class _B2BHomeState extends State<B2BHome> {
             onPressed: () {
               showDialogBox();
             },
-            child: Image.asset(
+            child:Image.asset(
               "Images/flot.png",
               scale: 2,
-            ),
+            )
+
           ),
           key: _scaffoldState,
           drawer: Drawer(child: getDrawer(context),),
@@ -1372,7 +1374,7 @@ class _B2BHomeState extends State<B2BHome> {
                                   // ),
                                   items: cityList,
                                   // initialValue:  controller.countryList,
-                                  label: 'Select City',
+                                  label: 'All India',
                                  // labelStyle: editProfileStyle(14),
 
                                   multiSelectTag: 'City',
@@ -1607,11 +1609,21 @@ class _B2BHomeState extends State<B2BHome> {
                                   fontSize: 15,
                                   color: colors.black),
                             ),
-                            InkWell(
-                              onTap: (){
-                             Navigator.push(context, MaterialPageRoute(builder: (context)=>Gogglemap()));
-                              },
-                                child: Icon(Icons.location_on_outlined,color: colors.primary,))
+                             InkWell(
+                               onTap: (){
+                                 Navigator.push(context, MaterialPageRoute(builder: (context) => GoogleMapHome(model: GetSub?.data)));
+                               },
+                                 child: Container(
+
+                                   height: 30,
+                                   width: 30,
+                                   decoration:  BoxDecoration(
+                                       color: colors.primary,
+                                     borderRadius: BorderRadius.circular(50)
+                                   ),
+                                     child: Center(child: Icon(Icons.location_on_outlined,color: colors.white,))
+                                 )
+                             )
                           ],
                         ),
                       )
@@ -1663,19 +1675,7 @@ class _B2BHomeState extends State<B2BHome> {
                                   //  categoryCard(context,homeCategory?.data?[index].image ?? '', homeCategory?.data?[index].name ?? '' );
                                 }),
                           ),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.end,
-                          //   children: [
-                          //     TextButton(
-                          //         onPressed: () {
-                          //           // homeCategories();
-                          //           Navigator.push(context, MaterialPageRoute(
-                          //               builder: (
-                          //                   context) => const HomeFullCategory()));
-                          //         },
-                          //         child: const Text("See All")),
-                          //   ],
-                          // ),
+
                         ],
                       ),
                     ),
@@ -1723,13 +1723,7 @@ class _B2BHomeState extends State<B2BHome> {
                       height: 8,
                       //  width: 30,
                     ),
-                    // GoogleMap(
-                    //   onMapCreated: (GoogleMapController controller){_controller.complete(controller);},
-                    //   initialCameraPosition: _kGoogle,
-                    //   markers:Set<Marker>.of(_list),
-                    //   myLocationEnabled: true,
-                    //
-                    // ),
+
                   ]),
                 );
               },
@@ -1787,494 +1781,499 @@ class _B2BHomeState extends State<B2BHome> {
                 ? SizedBox.shrink()
                 : Padding(
               padding: EdgeInsets.only(bottom: 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding:
-                    EdgeInsets.symmetric(horizontal: 1, vertical: 1),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AllProduct(
-                                        catId: GetSub!.data![i].id
-                                            .toString())),
-                              );
-                            },
-                            child: Text(
-                              "${GetSub!.data![i].name!.toUpperCase()}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                            )),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
+              child: InkWell(
+                onTap: () {
+
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 1, vertical: 1),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllProduct(
+                                          catId: GetSub!.data![i].id
+                                              .toString())),
+                                );
+                              },
+                              child: Text(
+                                "${GetSub!.data![i].name!.toUpperCase()}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              )),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 1.9,
-                    //  GetSub!.data![i].products!.length >3? 280:140,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        physics: ScrollPhysics(),
-                        itemCount: GetSub!.data![i].products!.length,
-                        //> 6 ? 6 : GetSub!.data![i].products!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsHome(pId: GetSub!.data![i].products![0].productId)));
-                            },
-                            child: Container(
-                              width:
-                              MediaQuery.of(context).size.width / 1.2,
-                              margin: const EdgeInsets.all(0),
-                              child: Card(
-                                elevation: 4,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      height: MediaQuery.of(context)
-                                          .size
-                                          .height /
-                                          5.6,
-                                      width: MediaQuery.of(context)
-                                          .size
-                                          .width,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.circular(20),
-                                        child: Image.network(
-                                          "${GetSub!.data![i].products![0].productImage}" ??
-                                              '',
-                                          fit: BoxFit.fill,
+                    Container(
+                      height: MediaQuery.of(context).size.height / 1.9,
+                      //  GetSub!.data![i].products!.length >3? 280:140,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: ScrollPhysics(),
+                          itemCount: GetSub!.data![i].products!.length,
+                          //> 6 ? 6 : GetSub!.data![i].products!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsHome(pId: GetSub!.data![i].products![0].productId,businessName: GetSub!.data![i].products![0].typeOfSeller,)));
+                              },
+                              child: Container(
+                                width:
+                                MediaQuery.of(context).size.width / 1.2,
+                                margin: const EdgeInsets.all(0),
+                                child: Card(
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        height: MediaQuery.of(context)
+                                            .size
+                                            .height /
+                                            5.6,
+                                        width: MediaQuery.of(context)
+                                            .size
+                                            .width,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                          BorderRadius.circular(20),
+                                          child: Image.network(
+                                            "${GetSub!.data![i].products![0].productImage}" ??
+                                                '',
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 24, top: 10),
-                                      child: Text(
-                                        "${GetSub!.data![i].products![0].name}" ??
-                                            '',
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                    ),
-                                    Container(
+                                      Container(
                                         margin: const EdgeInsets.only(
                                             left: 24, top: 10),
+                                        child: Text(
+                                          "${GetSub!.data![i].products![0].name}" ??
+                                              '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      Container(
+                                          margin: const EdgeInsets.only(
+                                              left: 24, top: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  CircleAvatar(
+                                                      backgroundColor:
+                                                      colors.primary,
+                                                      radius: 10,
+                                                      child: Icon(
+                                                        Icons
+                                                            .person_rounded,
+                                                        color: colors.white,
+                                                        size: 15,
+                                                      )),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                      "${GetSub!.data![i].products![0].storeName}" ?? ''),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                      width: 120,
+                                                      child: Text(
+                                                        "(${GetSub!.data![i].products![0].typeOfSeller})" ??
+                                                            '',
+                                                        maxLines: 1,
+                                                        overflow:
+                                                        TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            color: colors
+                                                                .black,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .bold),
+                                                      )),
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            left: 24, top: 5),
+                                        child: Row(
+                                          children: [
+                                            const CircleAvatar(
+                                              radius: 10,
+                                              backgroundColor:
+                                              colors.primary,
+                                              child: Icon(
+                                                Icons.location_pin,
+                                                size: 15,
+                                                color: colors.white,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Container(
+                                                width: 180,
+                                                child: Text(
+                                                  "${GetSub!.data![i].products![0].address}" ??
+                                                      "",
+                                                  overflow:
+                                                  TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            left: 20, top: 5, right: 20),
                                         child: Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment
                                               .spaceBetween,
                                           children: [
+                                            InkWell(
+                                                onTap: () {
+                                                  launch(
+                                                      "${GetSub!.data![i].products![0].video}");
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .video_camera_back_outlined,
+                                                      color: colors.primary,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    InkWell(
+                                                        child: Text(
+                                                            "Watch Video"))
+                                                  ],
+                                                )),
                                             Row(
                                               children: [
                                                 CircleAvatar(
+                                                    radius: 15,
                                                     backgroundColor:
-                                                    colors.primary,
-                                                    radius: 10,
+                                                    Colors.white,
                                                     child: Icon(
-                                                      Icons
-                                                          .person_rounded,
-                                                      color: colors.white,
-                                                      size: 15,
+                                                      Icons.image,
+                                                      color: colors.primary,
                                                     )),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                    "${GetSub!.data![i].products![0].storeName}" ?? ''),
+                                                InkWell(
+                                                    onTap: () {
+                                                      showDialog<String>(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                        context) =>
+                                                            AlertDialog(
+                                                              title: Text(
+                                                                  'Broucher Image'),
+                                                              content:GetSub!.data![i].products![0].broucherImage == null ? Image.asset("Images/no-image-icon.png",height: 120,width:double.infinity,fit: BoxFit.fill,):
+                                                              Image.network(
+                                                                  "${GetSub!.data![i].products![0].broucherImage}"),
+                                                            ),
+                                                      );
+                                                    },
+                                                    child: Text("Broucher"))
                                               ],
                                             ),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                    width: 120,
-                                                    child: Text(
-                                                      "(${GetSub!.data![i].products![0].typeOfSeller})" ??
-                                                          '',
-                                                      maxLines: 1,
-                                                      overflow:
-                                                      TextOverflow
-                                                          .ellipsis,
-                                                      style: TextStyle(
-                                                          color: colors
-                                                              .black,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .bold),
-                                                    )),
-                                              ],
-                                            )
                                           ],
-                                        )),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 24, top: 5),
-                                      child: Row(
-                                        children: [
-                                          const CircleAvatar(
-                                            radius: 10,
-                                            backgroundColor:
-                                            colors.primary,
-                                            child: Icon(
-                                              Icons.location_pin,
-                                              size: 15,
-                                              color: colors.white,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Container(
-                                              width: 180,
-                                              child: Text(
-                                                "${GetSub!.data![i].products![0].address}" ??
-                                                    "",
-                                                overflow:
-                                                TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                              )),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 20, top: 5, right: 20),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          InkWell(
-                                              onTap: () {
-                                                launch(
-                                                    "${GetSub!.data![i].products![0].video}");
-                                              },
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Container(
+                                              height: 25,
+                                              width: 25,
+                                              decoration:
+                                              const BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius
+                                                          .circular(
+                                                          50)),
+                                                  color: Colors
+                                                      .deepPurple),
+                                              child: Icon(
+                                                Icons.add_circle,
+                                                size: 15,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 25,
+                                              width: 25,
+                                              decoration:
+                                              const BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius
+                                                          .circular(
+                                                          5)),
+                                                  color: Colors
+                                                      .deepPurple),
+                                              child: const Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 5,
+                                                    right: 5,
+                                                    top: 3,
+                                                    bottom: 3),
+                                                child: Icon(
+                                                  Icons.message,
+                                                  size: 15,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 25,
+                                              width: 25,
+                                              decoration:
+                                              const BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius
+                                                          .circular(
+                                                          6)),
+                                                  color:
+                                                  colors.secondary),
+                                              child: const Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 5,
+                                                    right: 5,
+                                                    top: 3,
+                                                    bottom: 3),
+                                                child: Icon(
+                                                  Icons.mail_outline,
+                                                  size: 15,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 25,
+                                              width: 25,
+                                              decoration:
+                                              const BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius
+                                                          .circular(
+                                                          50)),
+                                                  color:
+                                                  colors.primary),
+                                              child: const Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 5,
+                                                    right: 5,
+                                                    top: 3,
+                                                    bottom: 3),
+                                                child: Icon(
+                                                  Icons.location_pin,
+                                                  size: 15,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                                  20,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                                  3,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  const BorderRadius
+                                                      .all(
+                                                      Radius.circular(
+                                                          6)),
+                                                  border: Border.all(
+                                                      width: 2,
+                                                      color: Colors.grey),
+                                                  color: colors.white),
                                               child: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceAround,
                                                 children: [
-                                                  Icon(
-                                                    Icons
-                                                        .video_camera_back_outlined,
-                                                    color: colors.primary,
+                                                  Container(
+                                                    height: 25,
+                                                    width: 25,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .all(Radius
+                                                            .circular(
+                                                            50)),
+                                                        color: GetSub!
+                                                            .data![
+                                                        i]
+                                                            .products![
+                                                        0]
+                                                            .taxNumber ==
+                                                            ""
+                                                            ? colors.primary
+                                                            : colors
+                                                            .secondary),
+                                                    child: const Padding(
+                                                      padding:
+                                                      EdgeInsets.only(
+                                                          left: 5,
+                                                          right: 5,
+                                                          top: 3,
+                                                          bottom: 3),
+                                                      child: Icon(
+                                                        Icons.description,
+                                                        size: 15,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 5,
+                                                  Container(
+                                                    height: 25,
+                                                    width: 25,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .all(Radius
+                                                            .circular(
+                                                            50)),
+                                                        color: GetSub!
+                                                            .data![
+                                                        i]
+                                                            .products![
+                                                        0]
+                                                            .subscriptionType ==
+                                                            1
+                                                            ? colors.primary
+                                                            : colors
+                                                            .secondary),
+                                                    child: const Padding(
+                                                      padding:
+                                                      EdgeInsets.only(
+                                                          left: 5,
+                                                          right: 5,
+                                                          top: 3,
+                                                          bottom: 3),
+                                                      child: Icon(
+                                                        Icons
+                                                            .check_circle_outline,
+                                                        size: 15,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
                                                   ),
-                                                  InkWell(
-                                                      child: Text(
-                                                          "Watch Video"))
+                                                  Container(
+                                                    height: 25,
+                                                    width: 25,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .all(Radius
+                                                            .circular(
+                                                            50)),
+                                                        color: GetSub!
+                                                            .data![
+                                                        i]
+                                                            .products![
+                                                        0]
+                                                            .subscriptionType ==
+                                                            1
+                                                            ? colors.primary
+                                                            : colors
+                                                            .secondary),
+                                                    child: const Padding(
+                                                      padding:
+                                                      EdgeInsets.only(
+                                                          left: 5,
+                                                          right: 5,
+                                                          top: 3,
+                                                          bottom: 3),
+                                                      child: Icon(
+                                                        Icons.verified_user,
+                                                        size: 15,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ],
-                                              )),
-                                          Row(
-                                            children: [
-                                              CircleAvatar(
-                                                  radius: 15,
-                                                  backgroundColor:
-                                                  Colors.white,
-                                                  child: Icon(
-                                                    Icons.image,
-                                                    color: colors.primary,
-                                                  )),
-                                              InkWell(
-                                                  onTap: () {
-                                                    showDialog<String>(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                      context) =>
-                                                          AlertDialog(
-                                                            title: Text(
-                                                                'Broucher Image'),
-                                                            content:GetSub!.data![i].products![0].broucherImage == null ? Image.asset("Images/no-image-icon.png",height: 120,width:double.infinity,fit: BoxFit.fill,):
-                                                            Image.network(
-                                                                "${GetSub!.data![i].products![0].broucherImage}"),
-                                                          ),
-                                                    );
-                                                  },
-                                                  child: Text("Broucher"))
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 20, right: 20),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Container(
-                                            height: 25,
-                                            width: 25,
-                                            decoration:
-                                            const BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.all(
-                                                    Radius
-                                                        .circular(
-                                                        50)),
-                                                color: Colors
-                                                    .deepPurple),
-                                            child: Icon(
-                                              Icons.add_circle,
-                                              size: 15,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 25,
-                                            width: 25,
-                                            decoration:
-                                            const BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.all(
-                                                    Radius
-                                                        .circular(
-                                                        5)),
-                                                color: Colors
-                                                    .deepPurple),
-                                            child: const Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 5,
-                                                  right: 5,
-                                                  top: 3,
-                                                  bottom: 3),
-                                              child: Icon(
-                                                Icons.message,
-                                                size: 15,
-                                                color: Colors.white,
                                               ),
                                             ),
-                                          ),
-                                          Container(
-                                            height: 25,
-                                            width: 25,
-                                            decoration:
-                                            const BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.all(
-                                                    Radius
-                                                        .circular(
-                                                        6)),
-                                                color:
-                                                colors.secondary),
-                                            child: const Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 5,
-                                                  right: 5,
-                                                  top: 3,
-                                                  bottom: 3),
-                                              child: Icon(
-                                                Icons.mail_outline,
-                                                size: 15,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 25,
-                                            width: 25,
-                                            decoration:
-                                            const BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.all(
-                                                    Radius
-                                                        .circular(
-                                                        50)),
-                                                color:
-                                                colors.primary),
-                                            child: const Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 5,
-                                                  right: 5,
-                                                  top: 3,
-                                                  bottom: 3),
-                                              child: Icon(
-                                                Icons.location_pin,
-                                                size: 15,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .height /
-                                                20,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                3,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                const BorderRadius
-                                                    .all(
-                                                    Radius.circular(
-                                                        6)),
-                                                border: Border.all(
-                                                    width: 2,
-                                                    color: Colors.grey),
-                                                color: colors.white),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceAround,
-                                              children: [
-                                                Container(
-                                                  height: 25,
-                                                  width: 25,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .all(Radius
-                                                          .circular(
-                                                          50)),
-                                                      color: GetSub!
-                                                          .data![
-                                                      i]
-                                                          .products![
-                                                      0]
-                                                          .taxNumber ==
-                                                          ""
-                                                          ? colors.primary
-                                                          : colors
-                                                          .secondary),
-                                                  child: const Padding(
-                                                    padding:
-                                                    EdgeInsets.only(
-                                                        left: 5,
-                                                        right: 5,
-                                                        top: 3,
-                                                        bottom: 3),
-                                                    child: Icon(
-                                                      Icons.description,
-                                                      size: 15,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: 25,
-                                                  width: 25,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .all(Radius
-                                                          .circular(
-                                                          50)),
-                                                      color: GetSub!
-                                                          .data![
-                                                      i]
-                                                          .products![
-                                                      0]
-                                                          .subscriptionType ==
-                                                          1
-                                                          ? colors.primary
-                                                          : colors
-                                                          .secondary),
-                                                  child: const Padding(
-                                                    padding:
-                                                    EdgeInsets.only(
-                                                        left: 5,
-                                                        right: 5,
-                                                        top: 3,
-                                                        bottom: 3),
-                                                    child: Icon(
-                                                      Icons
-                                                          .check_circle_outline,
-                                                      size: 15,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: 25,
-                                                  width: 25,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .all(Radius
-                                                          .circular(
-                                                          50)),
-                                                      color: GetSub!
-                                                          .data![
-                                                      i]
-                                                          .products![
-                                                      0]
-                                                          .subscriptionType ==
-                                                          1
-                                                          ? colors.primary
-                                                          : colors
-                                                          .secondary),
-                                                  child: const Padding(
-                                                    padding:
-                                                    EdgeInsets.only(
-                                                        left: 5,
-                                                        right: 5,
-                                                        top: 3,
-                                                        bottom: 3),
-                                                    child: Icon(
-                                                      Icons.verified_user,
-                                                      size: 15,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-                                    Center(
-                                      child: Btn(
-                                        height: 40,
-                                        width: 150,
-                                        title: "Contact Supplier",
-                                        onPress: () {
-                                          print('__________fdfdfgdfgd_________');
-                                          showDialogContactSuplier(GetSub!.data![i].products![index].productId.toString(), mobilee);
-                                        },
+                                      SizedBox(
+                                        height: 30,
                                       ),
-                                    )
-                                  ],
+                                      Center(
+                                        child: Btn(
+                                          height: 40,
+                                          width: 150,
+                                          title: "Contact Supplier",
+                                          onPress: () {
+                                            print('__________fdfdfgdfgd_________');
+                                            showDialogContactSuplier(GetSub!.data![i].products![index].productId.toString(), mobilee);
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        }),
-                  ),
-                ],
+                            );
+                          }),
+                    ),
+                  ],
+                ),
               ),
             );
           }
@@ -2400,95 +2399,7 @@ class _B2BHomeState extends State<B2BHome> {
                             ]),
                       ],
                     ),
-                    // Row(
-                    //   children: [
-                    //     Container(
-                    //       width: MediaQuery.of(context).size.width / 2.3,
-                    //       height: 40,
-                    //       alignment: Alignment.center,
-                    //       margin: const EdgeInsets.only(bottom: 10, left: 19),
-                    //       child: TextField(
-                    //         decoration: InputDecoration(
-                    //           contentPadding: const EdgeInsets.only(top: 20),
-                    //           border: OutlineInputBorder(
-                    //             borderSide: const BorderSide(
-                    //                 width: 1, color: Colors.transparent),
-                    //             borderRadius: BorderRadius.circular(7),
-                    //           ),
-                    //           enabledBorder: OutlineInputBorder(
-                    //             borderSide: const BorderSide(
-                    //                 width: 1, color: Colors.white),
-                    //             borderRadius: BorderRadius.circular(7),
-                    //           ),
-                    //           focusedBorder: OutlineInputBorder(
-                    //             borderSide: const BorderSide(
-                    //                 width: 1, color: Colors.white),
-                    //             borderRadius: BorderRadius.circular(7),
-                    //           ),
-                    //           hintText:
-                    //           "${_currentAddress != null ? _currentAddress! : "please wait.."}",
-                    //           hintStyle: const TextStyle(
-                    //               color: Colors.black54, fontSize: 10),
-                    //           filled: true,
-                    //           fillColor: Colors.white,
-                    //           prefixIcon: const Icon(
-                    //             Icons.location_pin,
-                    //             size: 20,
-                    //           ),
-                    //           prefixIconColor: Colors.black,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     Spacer(),
-                    //     Container(
-                    //       width: MediaQuery.of(context).size.width / 2.5,
-                    //       height: 40,
-                    //       alignment: Alignment.center,
-                    //       margin: EdgeInsets.only(
-                    //         bottom: 10,
-                    //       ),
-                    //       child: TextField(
-                    //         readOnly: true,
-                    //         onTap: (){
-                    //           Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
-                    //         },
-                    //         decoration: InputDecoration(
-                    //           contentPadding: const EdgeInsets.only(top: 20),
-                    //           border: OutlineInputBorder(
-                    //             borderSide: const BorderSide(
-                    //                 width: 1, color: Colors.transparent),
-                    //             borderRadius: BorderRadius.circular(7),
-                    //           ),
-                    //           enabledBorder: OutlineInputBorder(
-                    //             borderSide: const BorderSide(
-                    //                 width: 1, color: Colors.white),
-                    //             borderRadius: BorderRadius.circular(7),
-                    //           ),
-                    //           focusedBorder: OutlineInputBorder(
-                    //             borderSide: const BorderSide(
-                    //                 width: 1, color: Colors.white),
-                    //             borderRadius: BorderRadius.circular(7),
-                    //           ),
-                    //           hintText: "Search",
-                    //           filled: true,
-                    //           fillColor: Colors.white,
-                    //           hintStyle:
-                    //           const TextStyle(color: Colors.black54),
-                    //           prefixIcon: const Icon(
-                    //             Icons.search,
-                    //             size: 20,
-                    //           ),
-                    //           prefixIconColor: Colors.black,
-                    //           // suffixIcon: Icon(Icons.mic),
-                    //           suffixIconColor: Colors.black,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     SizedBox(
-                    //       width: 13,
-                    //     ),
-                    //   ],
-                    // ),
+
                   ],
                 ),
               ),
@@ -3178,9 +3089,7 @@ class _B2BHomeState extends State<B2BHome> {
             scrollDirection: Axis.horizontal,
             physics: ScrollPhysics(),
             itemCount: homeSpecificModel?.data?.clientData?.length,
-            //> 6 ? 6 : GetSub!.data![i].products!.length,
             itemBuilder: (BuildContext context, int index) {
-              print("------------- -------------- ---------- ${homeSpecificModel?.data?.clientData?.length} ${index}");
               return GestureDetector(
                 onTap: () async {
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsHome(pId: homeSpecificModel!.data!.clientData![index].id,)));
@@ -3229,7 +3138,7 @@ class _B2BHomeState extends State<B2BHome> {
                               children: [
                                 Row(
                                   children: [
-                                    CircleAvatar(
+                                    const CircleAvatar(
                                         backgroundColor: colors.primary,
                                         radius: 10,
                                         child: Icon(
@@ -3237,7 +3146,7 @@ class _B2BHomeState extends State<B2BHome> {
                                           color: colors.white,
                                           size: 15,
                                         )),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
@@ -3254,7 +3163,7 @@ class _B2BHomeState extends State<B2BHome> {
                                               '',
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: colors.black,
                                               fontWeight: FontWeight.bold),
                                         )),
@@ -3301,7 +3210,7 @@ class _B2BHomeState extends State<B2BHome> {
                                         "${homeSpecificModel!.data!.clientData![index].video}");
                                   },
                                   child: Row(
-                                    children: [
+                                    children: const [
                                       Icon(
                                         Icons.video_camera_back_outlined,
                                         color: colors.primary,
@@ -3314,7 +3223,7 @@ class _B2BHomeState extends State<B2BHome> {
                                   )),
                               Row(
                                 children: [
-                                  CircleAvatar(
+                                  const CircleAvatar(
                                       radius: 15,
                                       backgroundColor: Colors.white,
                                       child: Icon(
@@ -3339,7 +3248,7 @@ class _B2BHomeState extends State<B2BHome> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
@@ -3354,7 +3263,7 @@ class _B2BHomeState extends State<B2BHome> {
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(50)),
                                     color: Colors.deepPurple),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.add_circle,
                                   size: 15,
                                   color: Colors.white,
@@ -3572,21 +3481,9 @@ class _B2BHomeState extends State<B2BHome> {
               crossAxisAlignment: CrossAxisAlignment.center,
               // main
               children: [
-                // Container(
-                //   width:100,
-                //     child: Image.network("${imagee}")),
-                // CircleAvatar(
-                //   radius: 40,
-                //   backgroundImage: NetworkImage(
-                //     imagee ?? '',
-                //   ),
-                // ),
                 const SizedBox(
                   width: 10,
                 ),
-                // userModel == null || userModel!.data == null
-                //     ? SizedBox.shrink()
-                //     :
                 InkWell(
                   onTap: () {
                     namee != null
@@ -3638,14 +3535,7 @@ class _B2BHomeState extends State<B2BHome> {
                         const SizedBox(
                           height: 2,
                         ),
-                        /*getprofile?.user?.userData?.first.placeName == null ? Text("Vijay Nagar",style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.normal),) : Text("${getprofile?.user?.userData?.first.placeName}",style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.normal),
-                      )*/
+
                       ],
                     ),
                   ),
@@ -3668,24 +3558,7 @@ class _B2BHomeState extends State<B2BHome> {
                 ],
               ),
             ),
-            // child: ListTile(
-            //   leading: Container(
-            //     decoration: BoxDecoration(
-            //         color: Colors.white,
-            //         borderRadius: BorderRadius.circular(50)),
-            //     child: const Icon(Icons.person)
-            //   ),
-            //   title: const Text(
-            //     ' My Profile',
-            //   ),
-            //   onTap: () {
-            //     Navigator.push(context, MaterialPageRoute(builder: (Context) => Container()));
-            //     // Navigator.push(
-            //     //   context,
-            //     //   MaterialPageRoute(builder: (context) => HomeScreen()),
-            //     // );
-            //   },
-            // ),
+
           ),
           ListTile(
             leading: Image.asset(
@@ -3804,7 +3677,7 @@ class _B2BHomeState extends State<B2BHome> {
               ? SizedBox():
           ListTile(
             leading: Image.asset(
-              "Images/plans.png", height: 25, width: 20, color: Colors.grey,),
+              "Images/enquery.png", height: 25, width: 20, color: Colors.grey,),
             title: const Text(
               'Enquiry List',
             ),
@@ -3941,7 +3814,7 @@ class _B2BHomeState extends State<B2BHome> {
 
            ListTile(
             leading: Image.asset(
-              "Images/purchase product list.png",
+              "Images/help.png",
               height: 30,
               width: 30,
               color: Colors.grey,
@@ -3971,11 +3844,7 @@ class _B2BHomeState extends State<B2BHome> {
             ),
             onTap: () {
               deleteAccountDailog();
-              // share();
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (context) => HomeScreen()),
-              //   );
+
             },
           ),
 
@@ -4070,17 +3939,8 @@ class _B2BHomeState extends State<B2BHome> {
                         child:  Text( "YES",style: TextStyle(color: Colors.black),
                         ),
                         onPressed: () {
-                          //deleteSendOTP();
+
                           showDialogDelete(mNo.toString());
-                          //Navigator.pop(context);
-                          //deleteAccount();
-                          //Navigator.of(context).pop(false);
-                          // SettingProvider settingProvider =
-                          // Provider.of<SettingProvider>(context, listen: false);
-                          // settingProvider.clearUserSession(context);
-                          // //favList.clear();
-                          // Navigator.of(context).pushNamedAndRemoveUntil(
-                          //     '/home', (Route<dynamic> route) => false);
                         })
                   ],
                 );
@@ -4204,10 +4064,7 @@ class _B2BHomeState extends State<B2BHome> {
       var finalResponse = await response.stream.bytesToString();
       final jsonResponse =
       GetHomeProductsModel.fromJson(jsonDecode(finalResponse));
-      // for (int i = 0; i <= 22; i++) {
-      //   print(homeProductsModel?.data![i].name);
-      //   // print(homeCategory!.data![i].image);
-      // }
+
       setState(() {
         homeProductsModel = jsonResponse;
         print('${homeProductsModel?.data?.length}______________');
@@ -4389,12 +4246,12 @@ class _B2BHomeState extends State<B2BHome> {
                       ),
                       Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Text(
                             'OTP : ${otp}',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold),
@@ -4421,7 +4278,7 @@ class _B2BHomeState extends State<B2BHome> {
                               },
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                         ],
@@ -4468,7 +4325,7 @@ class _B2BHomeState extends State<B2BHome> {
                           color: colors.primary,
                           height: 60,
                           child: Row(
-                            children: [
+                            children: const [
                               SizedBox(
                                 width: 20,
                               ),
@@ -4484,7 +4341,7 @@ class _B2BHomeState extends State<B2BHome> {
                         ),
                         Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Padding(
@@ -4493,10 +4350,10 @@ class _B2BHomeState extends State<B2BHome> {
                               child: TextFormField(
                                 maxLength: 10,
                                 controller: yourMobileNumber,
-                                decoration: new InputDecoration(
-                                  prefixIcon: Padding(
+                                decoration: InputDecoration(
+                                  prefixIcon: const Padding(
                                     padding:
-                                    const EdgeInsets.only(top: 3),
+                                    EdgeInsets.only(top: 3),
                                     child: Icon(
                                       Icons.call,
                                       color: colors.primary,
@@ -4508,7 +4365,7 @@ class _B2BHomeState extends State<B2BHome> {
                                   EdgeInsets.only(top: 0, left: 0),
                                   hintText: "Your Mobile",
                                   fillColor: Colors.white,
-                                  border: new OutlineInputBorder(
+                                  border: OutlineInputBorder(
                                     borderRadius:
                                     new BorderRadius.circular(5.0),
                                     borderSide: new BorderSide(),
@@ -4525,7 +4382,7 @@ class _B2BHomeState extends State<B2BHome> {
                                 keyboardType: TextInputType.number,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 40,
                             ),
                             Btn(
@@ -4575,7 +4432,7 @@ class _B2BHomeState extends State<B2BHome> {
                         color: colors.primary,
                         height: 60,
                         child: Row(
-                          children: [
+                          children: const [
                             SizedBox(
                               width: 20,
                             ),
@@ -4591,12 +4448,12 @@ class _B2BHomeState extends State<B2BHome> {
                       ),
                       Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Text(
                             'OTP : ${otpNew}',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold),
@@ -4623,7 +4480,7 @@ class _B2BHomeState extends State<B2BHome> {
                               },
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                         ],

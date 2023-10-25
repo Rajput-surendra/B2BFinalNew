@@ -140,7 +140,7 @@ class _UpdateProductState extends State<UpdateProduct> {
    // getProductApi();
     getCategory();
     getBrandApi();
-    //getSubCategory("");
+    getSubCategory("");
     super.initState();
   }
   ProductUpdateModel? getProductModel;
@@ -170,7 +170,7 @@ class _UpdateProductState extends State<UpdateProduct> {
         selectedState =   getProductModel!.data!.first.categoryName  ?? "";
         productImageUrl1 =   getProductModel!.data!.first.image  ?? "";
         videoType =   getProductModel!.data!.first.videoType ?? "";
-        selectedSub =   getProductModel!.data!.first.subCatName ?? "";
+       // selectedSub =   getProductModel!.data!.first.subCatName ?? "";
         print('____sdscsd______${nameC.text}_________');
       });
     }
@@ -227,9 +227,9 @@ class _UpdateProductState extends State<UpdateProduct> {
       var finalResponse = await response.stream.bytesToString();
       final jsonResponse =
       GetSubCatModel.fromJson(json.decode(finalResponse));
-      // for (int i = 0; i < jsonResponse.data!.length; i++) {
-      //   print("sub cat:${jsonResponse.data?[i].id}");
-      // }
+      for (int i = 0; i < jsonResponse.data!.length; i++) {
+        print("sub cat:${jsonResponse.data?[i].id}");
+      }
 
       setState(() {
         getSubCatModel = jsonResponse;
@@ -410,7 +410,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                   //     ),
                   //   ),
                   // ),
-                  // getSubCatModel == null ?Center(child: CircularProgressIndicator()):
+               getSubCatModel == null ?Center(child: Text("Select subCat")):
                   Container(
                     height: 50,
                     // decoration: BoxDecoration(

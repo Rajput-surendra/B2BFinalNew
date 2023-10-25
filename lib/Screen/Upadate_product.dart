@@ -43,8 +43,6 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
 
     getuserId();
 
-
-
     // getSubCategory();
     // getProductList();
   }
@@ -107,7 +105,6 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
         for (int i = 0; i < allSubCategoryList.length; i++) {
           if (i == index) {
             allSubCategoryList[index] = [];
-
           }
         }
         jsonResponse.data?.forEach((element) {
@@ -122,7 +119,6 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
       for(int i= 0; i< (purchasedProductResponse?.purchaesData?.length ?? 0); i++){
         jsonResponse.data?.forEach((element) {
           if(element.id == purchasedProductResponse?.purchaesData?[i].subCategoryId){
-
             selectedSubCategory[i] = element;
           }
 
@@ -160,9 +156,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
           print('__________${purchasedProductResponse?.purchaesData?[i].categoryId}____ssss_____');
 
           if(purchasedProductResponse?.purchaesData?[i].categoryId.toString() == element.id.toString()){
-
             selectedCategory[i] = element;
-
             print('__________${element.id}____index_____');
             getSubCategory(i);
 
@@ -217,7 +211,6 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   String? product_id;
   GetProductListModel? getProductListModel;
   ProductList? _productList;
-
   //late List<String> productList;
   getProductList(int index) async {
 
@@ -265,7 +258,6 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
 
     });
   }
-
   var selectedSateIndex;
   bool ? isProductSelected ;
 
@@ -276,16 +268,11 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
       //isProductSelected = false ;
 
       if(element.isNotEmpty) {
-
-
-
         element.forEach((e) {
           // print('___________${element.length}__________');
-
           if (e.isSelected ?? false) {
             isProductSelected = true;
             productListTemp.add(e.name ?? '');
-
           }else {
 
           }
@@ -307,7 +294,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
       'category_id': selectedCategory.map((category) => category?.id).join(','),
       'product_id': productListTemp.join(',')
     } ;
-
+    print('______assdasdas____${param}_________');
     apiBaseHelper.postAPICall(getAddProductApi, param).then((getData) {
 
       bool error = getData['error'] ;
@@ -335,7 +322,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
     return
 
       Scaffold(
-        appBar: customAppBar(context: context, text: 'Productfghfhfgh Form', isTrue: false),
+        appBar: customAppBar(context: context, text: 'Product Form', isTrue: false),
         // appBar: AppBar(
         //   backgroundColor: colors.primary,
         //   title: Text("Product Form"),

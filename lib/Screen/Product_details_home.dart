@@ -5,6 +5,7 @@ import 'package:b2b/apiServices/apiConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart'as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,8 +17,8 @@ import '../widgets/Appbar.dart';
 import '../widgets/appButton.dart';
 
 class ProductDetailsHome extends StatefulWidget {
-  String?  pId;
-   ProductDetailsHome({Key? key,this.pId}) : super(key: key);
+  String? pId,businessName;
+   ProductDetailsHome({Key? key,this.pId,this.businessName}) : super(key: key);
 
   @override
   State<ProductDetailsHome> createState() => _ProductDetailsHomeState();
@@ -59,9 +60,11 @@ class _ProductDetailsHomeState extends State<ProductDetailsHome> {
       print(response.reasonPhrase);
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    print('___dssdfsd_______${widget.pId}_________');
+
+    print('___dssdfsd_______${widget.pId}___${widget.businessName}______');
     return Scaffold(
       appBar: customAppBar(text: "Product Details",isTrue: false, context: context),
       body:getHomeProductDetails == null || getHomeProductDetails == ""?Center(child: CircularProgressIndicator()) : getHomeProductDetails!.data!.length == 0 ? Center(child: Text("No Details Found!!")): Card(
@@ -77,11 +80,66 @@ class _ProductDetailsHomeState extends State<ProductDetailsHome> {
                       borderRadius: BorderRadius.circular(10),
                         child:getHomeProductDetails?.data?.first.image == null || getHomeProductDetails?.data?.first.image == " " ? Image.asset("Images/no-image-icon.png",height: 200,width:double.infinity,fit: BoxFit.fill,): Image.network("${getHomeProductDetails?.data?.first.image}",fit: BoxFit.fill,))),
                 SizedBox(height: 20,),
+                Row(
+                  children: [
+                    Text("${getHomeProductDetails?.data?.first.storeName}",style: TextStyle(color: colors.black,fontWeight: FontWeight.bold),),
+                    Container(
+                      width: 110,
+                        child: Text("(${widget.businessName})",style: TextStyle(color: colors.black,fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis,),maxLines: 1,)),
+                  ],
+                ),
+                SizedBox(height: 5,),
                   Text("${getHomeProductDetails?.data?.first.name}",style: TextStyle(color: colors.black,fontWeight: FontWeight.bold),),
                 SizedBox(height: 5,),
-                Text("${getHomeProductDetails?.data?.first.rating}"),
+              RatingBar.builder(
+                itemSize: 20,
+                //initialRating: 3,
+                minRating: 0,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: getHomeProductDetails!.data!.first.sellerRating!.length,
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context,_) => Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                 print(rating);
+
+                },
+              ),
+                Text("${getHomeProductDetails?.data?.first.sellerRating} (Review)"),
+
                 SizedBox(height: 5,),
-                 Text("${getHomeProductDetails?.data?.first.shortDescription}"),
+              Container(
+                height: 40,
+                child:Row(
+                  children: [
+                    Text("Tags :",style: TextStyle(color: colors.black,fontWeight: FontWeight.bold)),
+                    SizedBox(width: 10,),
+                    getHomeProductDetails?.data![0].tags == null ? SizedBox.shrink(): Container(
+                      decoration: BoxDecoration(
+                        color: colors.primary.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(5)
+                      ),
+                      height: 25,
+                      width: 140,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: getHomeProductDetails?.data![0].tags!.length,
+                          itemBuilder: (context,i){
+                            return Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text("${getHomeProductDetails?.data![0].tags!.join(',')}"),
+                            );
+                          }),
+                    ),
+                  ],
+                )
+              ),
+                Text("Description",style: TextStyle(color: colors.black,fontWeight: FontWeight.bold),),
+                SizedBox(height: 5,),
+                Text("${getHomeProductDetails?.data?.first.shortDescription}"),
                 SizedBox(height: 50,),
                 Center(
                   child: Padding(
